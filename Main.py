@@ -18,8 +18,8 @@ class userInputs:
         # Main inputs for the calculations:
         # ==== Sections ====
         self.A: float = 150.0
-        self.B: float = 47.0
-        self.C: float = 16.0
+        self.B: float = 45.0
+        self.C: float = 15.0
         self.t: float = 1.0
         self.R: float = 3.0
         # ==== Material ====

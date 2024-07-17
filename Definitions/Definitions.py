@@ -7,4 +7,3 @@ inp = man.userInputs()
 steel = mat.material(inp.MatName, inp.fy, inp.fu)
 section = sec.LippedCSection(inp.A, inp.B, inp.C, inp.t, inp.R)
 gross = gr.GrossProperties(section.x, section.y, section.thk, section.thk)
-
