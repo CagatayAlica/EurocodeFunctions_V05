@@ -15,8 +15,9 @@ for key, value in input_dict.items():
     print(f"{key}: {value:.4f}")
 
 print(f'{cons.secDivider}\nEffective Cross Section Properties\n{cons.secDivider}')
+ScomEd = Ax.ax.scomed
 Aeff = Ax.ax.Axial_Aeff
-print(f'Effective cross section area under compression:\nAeff = {Aeff:.2f} mm2')
+print(f'Effective cross section area under compression:\nAeff = {Aeff:.2f} mm2 for stress level {ScomEd:.2f} MPa')
 Ieff = Ben.Bending_strong.BendStrong_Ixeff
 Weff = Ben.Bending_strong.BendStrong_Wxeff
 print(f'Effective moment of inertia under bending about strong axis:\nIeff: {Ieff:.4f} mm3')

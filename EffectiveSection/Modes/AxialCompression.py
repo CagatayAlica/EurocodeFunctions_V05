@@ -7,8 +7,9 @@ import matplotlib.pyplot as plt
 
 
 class AxialComp:
-    def __init__(self):
+    def __init__(self, f):
         # Variables for axial compression
+        self.scomed = f
         self.Axial_elementData2 = None
         self.Axial_Aeff = None
         self.Axial_ygct = None
@@ -33,7 +34,7 @@ class AxialComp:
 
     def calcs_AxialCompression(self):
         # Design Stress
-        scomed = defin.steel.fy
+        scomed = self.scomed
         # ==============================================================================================================
         # Effective width of the top flange
         # ==============================================================================================================
@@ -152,4 +153,4 @@ class AxialComp:
         self.Axial_dxgc = abs(self.Axial_xgc-defin.gross.zgx)
 
 
-ax = AxialComp()
+ax = AxialComp(defin.steel.fy)

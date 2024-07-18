@@ -22,7 +22,7 @@ class LippedCSection:
         c = cc - r
 
         self.a = a
-        self.b = a
+        self.b = b
         self.c = c
         self.r = r
         self.aa = aa

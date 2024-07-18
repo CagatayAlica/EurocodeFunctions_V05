@@ -2,6 +2,10 @@ import math
 import Section.EffectiveProp as eff
 import Constants.Constants as cons
 import Definitions.Definitions as defin
+import EffectiveSection.Modes.AxialCompression as Ax
+import EffectiveSection.Modes.BendingStrong as Ben
+import EffectiveSection.Modes.BendingWeakWeb as Benweb
+import EffectiveSection.Modes.BendingWeakLip as Benlip
 
 """
 EN 1993-1-1 Section 6.3 Buckling Resistance of Members
@@ -15,6 +19,7 @@ class Sec6_3_1_1:
 
     def __init__(self, ksi: float):
         self.ksi = ksi
+
         self.NbRd = self.ksi * eff.Effective().Aeff * defin.steel.fy / cons.gamma1
 
 
