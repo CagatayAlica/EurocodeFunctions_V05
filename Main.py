@@ -12,23 +12,33 @@ class userInputs:
         self.C = None
         self.B = None
         self.A = None
+        self.P = None
+        self.Mx = None
+        self.My = None
+        self.Vy = None
+        self.Vx = None
         self.main()
 
     def main(self):
         # Main inputs for the calculations:
         # ==== Sections ====
-        self.A: float = 150.0
+        self.A: float = 90.0
         self.B: float = 45.0
-        self.C: float = 15.0
-        self.t: float = 1.0
-        self.R: float = 3.0
+        self.C: float = 10.0
+        self.t: float = 1.2
+        self.R: float = 1.6
         # ==== Material ====
-        self.MatName: str = 'S350'
-        self.fy: float = 350.0
-        self.fu: float = 420.0
+        self.MatName: str = 'S280'
+        self.fy: float = 280.0
+        self.fu: float = 380.0
         # ==== Member ====
-        self.Lx = 3000.0
-        self.Ly = 3000.0
-        self.Lt = 3000.0
-        self.C1 = 1.127
-
+        self.Lx: float = 2800.0
+        self.Ly: float = 1220.0
+        self.Lt: float = 1220.0
+        self.C1: float = 1.127
+        # ==== Loads ====
+        self.P: float = -23.0  # + for tension, - for compression
+        self.Mx: float = 35.0  # + for compression on top flange
+        self.My: float = 0.20  # + for compression on web
+        self.Vy: float = 12.0  # Shear along web
+        self.Vx: float = 0.00  # Shear along flanges

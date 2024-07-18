@@ -2,7 +2,6 @@ import math
 import Section.EffectiveProp as eff
 import Constants.Constants as cons
 import Definitions.Definitions as defin
-import BeamColumn.Member as mem
 
 """
 EN 1993-1-1 Section 6.3 Buckling Resistance of Members

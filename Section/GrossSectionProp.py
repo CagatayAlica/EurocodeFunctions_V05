@@ -22,6 +22,7 @@ class GrossProperties:
         self.y = y
         self.t = t
         self.r = r
+        self.prop = None
         self.grossProp(self.x, self.y, self.t, self.r)
 
     def grossProp(self, x, y, t, r):
@@ -145,7 +146,7 @@ class GrossProperties:
         self.xo = xo
 
         # Data dictionary
-        prop = {
+        self.prop = {
             "Ar": Ar,
             "zgx": zgx,
             "zgy": zgy,
@@ -162,4 +163,4 @@ class GrossProperties:
             "xo": xo
         }
 
-        return prop, propData
+        return self.prop, propData

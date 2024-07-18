@@ -16,6 +16,8 @@ gamma0 = 1.00
 gamma1 = 1.25
 gamma2 = 1.25
 
+# Section divider for text
+secDivider = '============================================'
 
 # Table 6.1
 def bucklingcurve(val):
