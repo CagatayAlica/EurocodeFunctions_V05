@@ -6,10 +6,6 @@ import EffectiveSection.Modes.BendingWeakLip as Benlip
 import Constants.Constants as cons
 import Definitions.Definitions as defin
 
-"""
-EN 1993-1-1 Section 6.2 Resistance of Cross-Section
-"""
-
 
 class Sec6_2_3:
     """
@@ -67,7 +63,7 @@ class Sec6_1_5:
             self.fbv = 0.48 * defin.steel.fy / self.lambdaW
         else:
             self.fbv = 0.67 * defin.steel.fy / math.pow(self.lambdaW, 2)
-        # EN 1993-1-3 Eq 6.8
+        # EN 1993-1-1 Eq 6.18
         VRd = defin.section.a * defin.section.thk * self.fbv / cons.gamma0
         return VRd
 
@@ -103,7 +99,7 @@ class StrengthReport:
         Rep += f'   sw = {defin.section.a:.2f} mm\n'
         Rep += f'   t = {defin.section.thk:.2f} mm\n'
         Rep += f'   VbRdz = {Sec6_1_5().VbRdz / 1000:.2f} kN.\n'
-        Rep += f'Shear Resistance Along Flanges / EN 1993-1-3 6.1.5:\n'
+        Rep += f'Shear Resistance Along Flanges / EN 1993-1-1 6.2.6:\n'
         Rep += f'   fbv = {defin.steel.fy:.2f} MPa\n'
         Rep += f'   sw = {defin.section.b:.2f} mm\n'
         Rep += f'   VbRdz = {Sec6_1_5().VbRdy / 1000:.2f} kN.\n'
