@@ -129,7 +129,7 @@ class bendWeakLip:
             x = [i[1], i[3]]
             y = [i[2], i[4]]
             t = i[5]
-            plt.plot(x, y, linewidth=t)
+            plt.plot(x, y, linewidth=t*2)
         plt.title('Bending About Weak Axis Lips are Under Compression | Effective Section')
         plt.axis('equal')
         plt.show()

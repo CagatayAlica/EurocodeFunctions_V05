@@ -7,7 +7,7 @@ import Constants.Constants as cons
 import Definitions.Definitions as defin
 
 
-class Sec6_2_3:
+class Sec6_1_3:
     """
     Section 6.2.3 Tension
     """
@@ -18,7 +18,7 @@ class Sec6_2_3:
         self.NtRd = min(self.NuRd, self.NplRd)
 
 
-class Sec6_2_4:
+class Sec6_1_4:
     """
     Section 6.2.4 Compression
     """
@@ -78,12 +78,12 @@ class StrengthReport:
         Rep += f'Axial Tension Resistance / EN 1993-1-3 6.1.2:\n'
         Rep += f'   Ag = {defin.gross.Ar:.2f} mm2\n'
         Rep += f'   fy = {defin.steel.fy:.2f} MPa\n'
-        Rep += f'   fy = {defin.steel.fu:.2f} MPa\n'
-        Rep += f'   NtRd = {Sec6_2_3(defin.gross.Ar).NtRd / 1000:.2f} kN.\n'
+        Rep += f'   fu = {defin.steel.fu:.2f} MPa\n'
+        Rep += f'   NtRd = {Sec6_1_3(defin.gross.Ar).NtRd / 1000:.2f} kN.\n'
         Rep += f'Axial Compression Resistance / EN 1993-1-3 6.1.3:\n'
-        Rep += f'   Aeff = {Sec6_2_4().Aeff:.2f} mm2\n'
+        Rep += f'   Aeff = {Sec6_1_4().Aeff:.2f} mm2\n'
         Rep += f'   fy = {defin.steel.fy:.2f} MPa\n'
-        Rep += f'   NcRd = {Sec6_2_4().NcRd / 1000:.2f} kN.\n'
+        Rep += f'   NcRd = {Sec6_1_4().NcRd / 1000:.2f} kN.\n'
         Rep += f'Bending Resistance About Strong Axis / EN 1993-1-3 6.1.4.1:\n'
         Rep += f'   Weffx = {Sec6_2_5().Wxeff:.2f} mm2\n'
         Rep += f'   McRdx = {Sec6_2_5().McRdx / 1000000:.2f} kNm.\n'
@@ -102,9 +102,9 @@ class StrengthReport:
         Rep += f'Shear Resistance Along Flanges / EN 1993-1-1 6.2.6:\n'
         Rep += f'   fbv = {defin.steel.fy:.2f} MPa\n'
         Rep += f'   sw = {defin.section.b:.2f} mm\n'
-        Rep += f'   VbRdz = {Sec6_1_5().VbRdy / 1000:.2f} kN.\n'
+        Rep += f'   VbRdz = {Sec6_1_5().VbRdy / 1000:.2f} kN.'
         self.Report = Rep
 
 
-ResistanceReport = StrengthReport()
-print(ResistanceReport.Report)
+ResistanceReport = StrengthReport().Report
+

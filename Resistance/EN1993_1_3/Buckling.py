@@ -5,7 +5,7 @@ import EffectiveSection.Modes.AxialCompression as Ax
 import EffectiveSection.Modes.BendingStrong as Ben
 
 
-class Sec6_3_1:
+class Sec6_2_1:
     def __init__(self):
         self.Aeff = Ax.ax.Axial_Aeff
         self.Ag = defin.gross.Ar
@@ -13,6 +13,8 @@ class Sec6_3_1:
         self.lambda1 = 93.9 * cons.eps
         self.lambdabarX = self.slendernessFlex(defin.inp.Lx, math.sqrt(defin.gross.Ix / defin.gross.Ar))
         self.lambdabarY = self.slendernessFlex(defin.inp.Ly, math.sqrt(defin.gross.Iy / defin.gross.Ar))
+        self.NcrFlexX = self.NcrFlex(defin.gross.Ix, defin.inp.Lx)
+        self.NcrFlexY = self.NcrFlex(defin.gross.Iy, defin.inp.Ly)
         self.NcrT = self.NcrTorsional(defin.inp.Lt)
         self.lambdabarTor = self.slendernessTor(self.Aeff, defin.steel.fy, self.NcrT)
         self.ffX = self.calc_ksi(self.lambdabarX)[1]
@@ -26,6 +28,10 @@ class Sec6_3_1:
     def slendernessFlex(self, Lcr, i):
         lambdabar = (Lcr / i) * (math.sqrt(self.Aeff / self.Ag) / self.lambda1)
         return lambdabar
+
+    def NcrFlex(self, I, L):
+        Ncr = math.pow(math.pi, 2) * defin.steel.E * I / math.pow(L, 2)
+        return Ncr
 
     def NcrTorsional(self, Lt):
         """
@@ -95,27 +101,35 @@ class Sec6_3_2:
         Nb = self.ksi * self.weff * defin.steel.fy / cons.gamma0
         return Nb
 
+
 class BucklingReport:
     def __init__(self):
         Rep = f'{cons.secDivider}\nBUCKLING RESISTANCE\n{cons.secDivider}\n'
         Rep += f'Buckling Resistance in Axial Compression / EN 1993-1-1 6.3.1:\n'
-        Rep += f'   alfa = {Sec6_3_1().imp:.2f}.\n'
-        Rep += f'   Aeff = {Sec6_3_1().Aeff:.2f} mm2.\n'
+        Rep += f'   alfa = {Sec6_2_1().imp:.2f}.\n'
+        Rep += f'   Aeff = {Sec6_2_1().Aeff:.2f} mm2.\n'
         Rep += f'   fy = {defin.steel.fy:.2f} MPa.\n'
-        Rep += f'   Ncr = {Sec6_3_1().NcrT:.2f} N.\n'
-        Rep += f'   ffX = {Sec6_3_1().ffX:.2f}.\n'
-        Rep += f'   ffY = {Sec6_3_1().ffY:.2f}.\n'
-        Rep += f'   ffT = {Sec6_3_1().ffT:.2f}.\n'
-        Rep += f'   ksiX = {Sec6_3_1().ksiX:.2f}.\n'
-        Rep += f'   ksiY = {Sec6_3_1().ksiY:.2f}.\n'
-        Rep += f'   ksiT = {Sec6_3_1().ksiT:.2f}.\n'
-        Rep += f'   NbRd = {Sec6_3_1().NbRd / 1000:.2f} kN.\n'
+        Rep += f'   NcrX = {Sec6_2_1().NcrFlexX:.2f} N.\n'
+        Rep += f'   NcrY = {Sec6_2_1().NcrFlexY:.2f} N.\n'
+        Rep += f'   NcrTor = {Sec6_2_1().NcrT:.2f} N.\n'
+        Rep += f'   lamX = {Sec6_2_1().lambdabarX:.2f}\n'
+        Rep += f'   lamY = {Sec6_2_1().lambdabarY:.2f}\n'
+        Rep += f'   lamTor = {Sec6_2_1().lambdabarTor:.2f}\n'
+        Rep += f'   ffX = {Sec6_2_1().ffX:.2f}.\n'
+        Rep += f'   ffY = {Sec6_2_1().ffY:.2f}.\n'
+        Rep += f'   ffT = {Sec6_2_1().ffT:.2f}.\n'
+        Rep += f'   ksiX = {Sec6_2_1().ksiX:.2f}.\n'
+        Rep += f'   ksiY = {Sec6_2_1().ksiY:.2f}.\n'
+        Rep += f'   ksiT = {Sec6_2_1().ksiT:.2f}.\n'
+        Rep += f'   NbRd = {Sec6_2_1().NbRd / 1000:.2f} kN.\n'
         Rep += f'Buckling Resistance in Bending About Strong Axis / EN 1993-1-1 6.3.1:\n'
         Rep += f'   Weffx = {Sec6_3_2().weff:.2f} mm3.\n'
         Rep += f'   Mcr = {Sec6_3_2().Mcr:.2f} Nmm.\n'
+        Rep += f'   lam = {Sec6_3_2().lambdaLTB:.2f}\n'
         Rep += f'   ksiLTB = {Sec6_3_2().ksi:.2f}.\n'
         Rep += f'   MbRdx = {Sec6_3_2().MbRd / 1000000:.2f} kNm.\n'
 
         self.Report = Rep
 
-print(BucklingReport().Report)
+
+BuckleReport = BucklingReport().Report

@@ -138,7 +138,7 @@ class bendStrong:
             x = [i[1], i[3]]
             y = [i[2], i[4]]
             t = i[5]
-            plt.plot(x, y, linewidth=t)
+            plt.plot(x, y, linewidth=t*2)
         plt.title('Bending About Strong Axis | Effective Section')
         plt.axis('equal')
         plt.show()

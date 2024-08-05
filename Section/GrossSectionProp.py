@@ -162,5 +162,6 @@ class GrossProperties:
             "It": It,
             "xo": xo
         }
+        #print(self.prop)
 
         return self.prop, propData

@@ -22,11 +22,11 @@ class userInputs:
     def main(self):
         # Main inputs for the calculations:
         # ==== Sections ====
-        self.A: float = 200.0
-        self.B: float = 55.0
+        self.A: float = 90.0
+        self.B: float = 45.0
         self.C: float = 10.0
-        self.t: float = 1.6
-        self.R: float = 3.0
+        self.t: float = 0.8
+        self.R: float = 1.2
         # ==== Material ====
         self.MatName: str = 'S280'
         self.fy: float = 280.0

@@ -140,17 +140,28 @@ class AxialComp:
             x = [i[1], i[3]]
             y = [i[2], i[4]]
             t = i[5]
-            plt.plot(x, y, linewidth=t)
+            plt.plot(x, y, linewidth=t*2)
         plt.title('Axial Compression | Effective Section')
-        plt.axis('equal')
-        plt.show()
 
         # Results
         self.Axial_ygc = intprop.calcProps(self.Axial_elementData2)[1]
         self.Axial_ygct = defin.section.aa - intprop.calcProps(self.Axial_elementData2)[1]
         self.Axial_xgc = intprop.calcProps(self.Axial_elementData2)[3]
         self.Axial_Aeff = intprop.calcProps(self.Axial_elementData2)[0]
-        self.Axial_dxgc = abs(self.Axial_xgc-defin.gross.zgx)
+        self.Axial_dxgc = self.Axial_xgc - defin.gross.zgx  # if it is + compression on web.
+
+        plt.plot(self.Axial_xgc, defin.section.A / 2, color='gray', linestyle='solid', marker=6, markerfacecolor='blue',
+                 markersize=9)
+        plt.text(self.Axial_xgc, defin.section.A / 2 * 0.9, 'Effective Gravity Centre', style='italic',
+                 bbox={'facecolor': 'blue', 'alpha': 0.5, 'pad': 1}, verticalalignment='top')
+        plt.plot(defin.gross.zgx, defin.section.A / 2, color='gray', linestyle='solid', marker=7, markerfacecolor='red',
+                 markersize=9)
+        plt.text(defin.gross.zgx, defin.section.A / 2 * 1.2, 'Gross Gravity Centre', style='italic',
+                 bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 1}, verticalalignment='top')
+        plt.text(defin.gross.zgx * 1.3, defin.section.A / 2, f'eny : {self.Axial_dxgc:.2f} mm', style='italic',
+                 bbox={'facecolor': 'green', 'alpha': 0.5, 'pad': 1}, verticalalignment='center')
+        plt.axis('equal')
+        plt.show()
 
 
 ax = AxialComp(defin.steel.fy)
