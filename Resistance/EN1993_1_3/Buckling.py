@@ -102,6 +102,10 @@ class Sec6_3_2:
         return Nb
 
 
+N_Resist = Sec6_2_1()
+M_Resist = Sec6_3_2()
+
+
 class BucklingReport:
     def __init__(self):
         Rep = f'{cons.secDivider}\nBUCKLING RESISTANCE\n{cons.secDivider}\n'
@@ -133,3 +137,4 @@ class BucklingReport:
 
 
 BuckleReport = BucklingReport().Report
+print(BuckleReport)

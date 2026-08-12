@@ -147,21 +147,25 @@ class GrossProperties:
 
         # Data dictionary
         self.prop = {
-            "Ar": Ar,
-            "zgx": zgx,
-            "zgy": zgy,
-            "Ix": Ix,
-            "Wx": Ix * (1 - 2 * delta) / max(zgb, zgt),
-            "Iy": Iy,
-            "Wy": Iy * (1 - 2 * delta) / max(zgl, zgr),
-            "Ixy": Ixy,
-            "Iw": np.sum(Iw),
-            "xsc": xsc,
-            "ysc": ysc,
-            "Cw": Cw,
-            "It": It,
-            "xo": xo
+            "Ag": [Ar, ' mm2, Area of cross-section'],
+            "zgx": [zgx, ' mm, Coordinate for gravity centre'],
+            "zgy": [zgy, ' mm, Coordinate for gravity centre'],
+            "Ix": [Ix, ' mm4, Second moment of area about strong axis'],
+            "Wx": [Ix * (1 - 2 * delta) / max(zgb, zgt), ' mm3, Section modulus about strong axis'],
+            "Iy": [Iy, ' mm4, Second moment of area about weak axis'],
+            "Wy": [Iy * (1 - 2 * delta) / max(zgl, zgr), ' mm3, Section modulus about weak axis'],
+            "Ixy": [Ixy, ' mm4, Product moment of area'],
+            "Iw": [np.sum(Iw), ' Sectorial constant'],
+            "xsc": [xsc, ' mm, Shear center on y axis'],
+            "ysc": [ysc, ' mm, Shear center on x axis'],
+            "Cw": [Cw, ' mm6, Warping constant'],
+            "It": [It, ' mm4, Torsional constant'],
+            "xo": [xo, ' mm, Distance between centroid and shear centre']
         }
-        #print(self.prop)
+        # print(self.prop)
+        secDivider = '============================================'
+        print(f'{secDivider}\nGROSS SECTION PROPERTIES (in mm)\n{secDivider}')
+        for key, value in self.prop.items():
+            print(f'{key}: {value[0]:.4f}{value[1]}')
 
         return self.prop, propData

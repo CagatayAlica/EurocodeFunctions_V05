@@ -18,7 +18,9 @@ gamma2 = 1.25
 
 # Section divider for text
 secDivider = '============================================'
-
+sp3 = '   '
+sp6 = '      '
+sp9 = '         '
 # Table 6.1
 def bucklingcurve(val):
     if val == 'a':
@@ -33,3 +35,4 @@ def bucklingcurve(val):
 
 
 Mode = Literal['Compression', 'Bending', 'BendingMinorWeb', 'BendingMinorLip']
+SecType = Literal['C', 'U']

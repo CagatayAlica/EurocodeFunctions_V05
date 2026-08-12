@@ -54,7 +54,7 @@ class Sec6_1_5:
         self.VbRdy = self.ShearWeak()
 
     def ShearStrong(self):
-        # EN 1993-1-3 Eq 6.10
+        # EN 1993-1-3 Eq 6.1
         self.lambdaW = 0.346 * defin.section.a / defin.section.thk * math.sqrt(defin.steel.fy / defin.steel.E)
         # EN 1993-1-3 Table 6.1
         if self.lambdaW <= 0.83:
@@ -72,6 +72,12 @@ class Sec6_1_5:
         return VRd
 
 
+Tension = Sec6_1_3(defin.gross.Ar)
+Compression = Sec6_1_4()
+Bending = Sec6_2_5()
+Shear = Sec6_1_5()
+
+
 class StrengthReport:
     def __init__(self):
         Rep = f'{cons.secDivider}\nSECTION RESISTANCE\n{cons.secDivider}\n'
@@ -85,13 +91,13 @@ class StrengthReport:
         Rep += f'   fy = {defin.steel.fy:.2f} MPa\n'
         Rep += f'   NcRd = {Sec6_1_4().NcRd / 1000:.2f} kN.\n'
         Rep += f'Bending Resistance About Strong Axis / EN 1993-1-3 6.1.4.1:\n'
-        Rep += f'   Weffx = {Sec6_2_5().Wxeff:.2f} mm2\n'
+        Rep += f'   Weffx = {Sec6_2_5().Wxeff:.2f} mm3\n'
         Rep += f'   McRdx = {Sec6_2_5().McRdx / 1000000:.2f} kNm.\n'
         Rep += f'Bending Resistance About Weak Axis and Web is Under Compression / EN 1993-1-3 6.1.4.1:\n'
-        Rep += f'   Weffy = {Sec6_2_5().WeffyWeb:.2f} mm2\n'
+        Rep += f'   Weffy = {Sec6_2_5().WeffyWeb:.2f} mm3\n'
         Rep += f'   McRdyWeb = {Sec6_2_5().McRdyWeb / 1000000:.2f} kNm.\n'
         Rep += f'Bending Resistance About Weak Axis and Lips are Under Compression / EN 1993-1-3 6.1.4.1:\n'
-        Rep += f'   Weffy = {Sec6_2_5().WeffyLip:.2f} mm2\n'
+        Rep += f'   Weffy = {Sec6_2_5().WeffyLip:.2f} mm3\n'
         Rep += f'   McRdyLip = {Sec6_2_5().McRdyLip / 1000000:.2f} kNm.\n'
         Rep += f'Shear Resistance Along Web / EN 1993-1-3 6.1.5:\n'
         Rep += f'   LambdaW = {Sec6_1_5().lambdaW:.2f}\n'
@@ -108,3 +114,4 @@ class StrengthReport:
 
 ResistanceReport = StrengthReport().Report
 
+print(ResistanceReport)
