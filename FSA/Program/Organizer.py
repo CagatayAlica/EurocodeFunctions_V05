@@ -1,22 +1,5 @@
-import Main as man
 from typing import Literal
 import FSA.Program.BucklingAnalysis as bckl
-
-# ======================================================================================================================
-# Selection of unit
-# ======================================================================================================================
-select_unit = man.select_unit
-print(select_unit)
-# ======================================================================================================================
-# Steel material in selected unit
-# ======================================================================================================================
-mat =man.mat
-print(mat)
-# ======================================================================================================================
-# Defining the section in selected unit
-# ======================================================================================================================
-sec = man.sec
-print(sec)
 
 class Buckle:
     def __init__(self, selected_unit, section, material, case:Literal['AXIAL','BENDING']):
@@ -47,4 +30,4 @@ class Buckle:
         bending = Buckling_for.plot_the_signaturecurve(sec_name, fyield, x, y, section_x, section_y, minima_val, maxima_val, True,
                                                Buckling_for.case)
         self.values = Buckling_for.values
-        print(Buckling_for.values)
+        #print(Buckling_for.values)

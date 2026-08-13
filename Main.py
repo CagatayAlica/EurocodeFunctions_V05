@@ -1,6 +1,6 @@
 from typing import Literal
 from Section.Materials import material
-from Section.CreateSections import C_Section
+from Section.CreateSections import C_Section, U_Section
 import FSA.Program.Runner as fsa
 
 
@@ -43,19 +43,35 @@ print(mat)
 # ======================================================================================================================
 # Defining the section in selected unit
 # ======================================================================================================================
-sec = C_Section(90, 45, 10, 1.2, 2.5, 90, mat)
+sec = C_Section(140, 45, 10, 1.2, 2.5, 270, mat)
 print(sec)
-# sec = Section.U_Section(defs.A,defs.B,defs.t,defs.R,0, mat)
-# sec = Section.Omega_Section(100, 48,12,10,1,3,0,mat)
 
 
 def main():
-    """The main entry point function containing the core logic."""
-    BucklingAnalysis = fsa.Run_Buckling()
-    Buckle_Axial = BucklingAnalysis.FSA('AXIAL')
-    Buckle_Bending = BucklingAnalysis.FSA('BENDING')
+    # 1. Instantiates section, material, and units ONCE in __init__
+    BucklingAnalysis = fsa.Run_Buckling(sec, mat, select_unit)
+
+    # 2. Runs FSA using the pre-initialized section and material
+    Scr_axial = BucklingAnalysis.FSA('AXIAL')
+    Scr_bending = BucklingAnalysis.FSA('BENDING')
+
+    # Multiply index [2] of factors by material yield strength (fy)
+    sigma_cr_axial = [row[2] * mat.fy for row in Scr_axial]
+    sigma_cr_bending = [row[2] * mat.fy for row in Scr_bending]
+    s=0
+    for i in sigma_cr_axial:
+        Scr_axial[s].append(i)
+        s=+1
+    s=0
+    for y in sigma_cr_bending:
+        Scr_bending[s].append(y)
+        s=+1
+
+    print("Axial Critical Stresses:", sigma_cr_axial)
+    print("Bending Critical Stresses:", sigma_cr_bending)
+    print("Axial Critical Load Factor and stresses:", Scr_axial)
+    print("Bending Critical Load Factor and stresses:", Scr_bending)
 
 
-# The execution guard
 if __name__ == "__main__":
     main()
