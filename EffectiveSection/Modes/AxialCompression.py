@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 
 
 class AxialComp:
-    def __init__(self, f):
+    def __init__(self, f, fcr):
         # Variables for axial compression
         self.scomed = f
+        self.fcr = fcr
         self.Axial_elementData2 = None
         self.Axial_Aeff = None
         self.Axial_ygct = None
@@ -74,7 +75,7 @@ class AxialComp:
         top_Is = Sec553.Is(top_flg_be2, defin.section.tcore, top_lip_beff)
         top_scrs = Sec553.calc_scrs(top_K, top_Is, defin.steel.E, top_As)
         # Thickness reduction factor
-        top_xd = Sec553.thk_reduction(scomed, top_scrs)
+        top_xd = Sec553.thk_reduction(scomed, self.fcr)
         top_t_red = top_xd * defin.section.tcore
         # ==============================================================================================================
         # Effective width of the bottom edge fold
@@ -95,7 +96,7 @@ class AxialComp:
         bot_Is = Sec553.Is(bot_flg_be2, defin.section.tcore, bot_lip_beff)
         bot_scrs = Sec553.calc_scrs(bot_K, bot_Is, defin.steel.E, bot_As)
         # Thickness reduction factor
-        bot_xd = Sec553.thk_reduction(scomed, bot_scrs)
+        bot_xd = Sec553.thk_reduction(scomed, self.fcr)
         bot_t_red = bot_xd * defin.section.tcore
         # ==============================================================================================================
         # Effective width of the web
@@ -162,6 +163,3 @@ class AxialComp:
                  bbox={'facecolor': 'green', 'alpha': 0.5, 'pad': 1}, verticalalignment='center')
         plt.axis('equal')
         plt.show()
-
-
-ax = AxialComp(defin.steel.fy)

@@ -7,8 +7,9 @@ import matplotlib.pyplot as plt
 
 
 class bendWeakLip:
-    def __init__(self):
+    def __init__(self, fcr):
         # Variables for bending about strong axis
+        self.fcr = fcr
         self.BendWeakLip_xgct = None
         self.BendWeakLip_xgc = None
         self.BendWeakLip_elementData2 = None
@@ -74,7 +75,7 @@ class bendWeakLip:
         top_Is = Sec553.Is(top_flg_be2, defin.section.tcore, top_lip_beff)
         top_scrs = Sec553.calc_scrs(top_K, top_Is, defin.steel.E, top_As)
         # Thickness reduction factor
-        top_xd = Sec553.thk_reduction(scomed, top_scrs)
+        top_xd = Sec553.thk_reduction(scomed, self.fcr)
         top_t_red = top_xd * defin.section.tcore
         # ==============================================================================================================
         # Effective width of the bottom edge fold
@@ -95,7 +96,7 @@ class bendWeakLip:
         bot_Is = Sec553.Is(bot_flg_be2, defin.section.tcore, bot_lip_beff)
         bot_scrs = Sec553.calc_scrs(bot_K, bot_Is, defin.steel.E, bot_As)
         # Thickness reduction factor
-        bot_xd = Sec553.thk_reduction(scomed, bot_scrs)
+        bot_xd = Sec553.thk_reduction(scomed, self.fcr)
         bot_t_red = bot_xd * defin.section.tcore
         # ==============================================================================================================
         # Effective width of the web

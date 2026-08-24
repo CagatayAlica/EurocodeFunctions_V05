@@ -7,8 +7,9 @@ import matplotlib.pyplot as plt
 
 
 class bendWeakWeb:
-    def __init__(self):
+    def __init__(self, fcr):
         # Variables for bending about strong axis
+        self.fcr = fcr
         self.BendWeakWeb_xgct = None
         self.BendWeakWeb_xgc = None
         self.BendWeakWeb_elementData2 = None
@@ -67,7 +68,7 @@ class bendWeakWeb:
         top_Is = Sec553.Is(top_flg_be2, defin.section.tcore, top_lip_beff)
         top_scrs = Sec553.calc_scrs(top_K, top_Is, defin.steel.E, top_As)
         # Thickness reduction factor
-        top_xd = Sec553.thk_reduction(scomed, top_scrs)
+        top_xd =  1.0  # Tension
         top_t_red = top_xd * defin.section.tcore
         # ==============================================================================================================
         # Effective width of the bottom edge fold

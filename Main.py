@@ -2,6 +2,7 @@ from typing import Literal
 from Section.Materials import material
 from Section.CreateSections import C_Section, U_Section
 import FSA.Program.Runner as fsa
+import EffectiveSection.Modes as modes
 
 
 class Unit:
@@ -43,11 +44,11 @@ print(mat)
 # ======================================================================================================================
 # Defining the section in selected unit
 # ======================================================================================================================
-sec = C_Section(140, 45, 10, 1.2, 2.5, 270, mat)
+sec = C_Section(140, 45, 10, 1.2, 2.5, 0, mat)
 print(sec)
 
 
-def main():
+def bucklingAnalysis():
     # 1. Instantiates section, material, and units ONCE in __init__
     BucklingAnalysis = fsa.Run_Buckling(sec, mat, select_unit)
 
@@ -58,19 +59,46 @@ def main():
     # Multiply index [2] of factors by material yield strength (fy)
     sigma_cr_axial = [row[2] * mat.fy for row in Scr_axial]
     sigma_cr_bending = [row[2] * mat.fy for row in Scr_bending]
-    s=0
+    s = 0
     for i in sigma_cr_axial:
         Scr_axial[s].append(i)
-        s=+1
-    s=0
+        s = +1
+    s = 0
     for y in sigma_cr_bending:
         Scr_bending[s].append(y)
-        s=+1
+        s = +1
 
-    print("Axial Critical Stresses:", sigma_cr_axial)
-    print("Bending Critical Stresses:", sigma_cr_bending)
-    print("Axial Critical Load Factor and stresses:", Scr_axial)
-    print("Bending Critical Load Factor and stresses:", Scr_bending)
+    report = f'BUCKLING ANALYSIS REPORT\n________________\n'
+    for i in Scr_axial:
+        report += (f'Case \t: {i[0]}\n'
+                   f'Buckling Mode \t: {i[1]}\n'
+                   f'Critical buckling load factor \t: {i[2]:.3f}\n'
+                   f'Critical buckling stress \t: {i[3]:.3f} MPa\n')
+    for i in Scr_bending:
+        report += (f'Case \t: {i[0]}\n'
+                   f'Buckling Mode \t: {i[1]}\n'
+                   f'Critical buckling load factor \t: {i[2]:.3f}\n'
+                   f'Critical buckling stress \t: {i[3]:.3f} MPa\n')
+
+    print(report)
+    return Scr_axial, Scr_bending
+
+BucklingResults = bucklingAnalysis()
+
+def effective():
+    f_crit = None
+    for i in BucklingResults:
+        if i[0] == 'AXIAL' and i[1] == 'local':
+            f_crit = i[2]
+
+    axialComp = modes.AxialComp(mat.fy,f_crit)
+    modes.
+    return axialComp
+
+
+def main():
+    bucklingAnalysis()
+    effective()
 
 
 if __name__ == "__main__":
