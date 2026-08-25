@@ -54,6 +54,9 @@ def calc_scrs(K, Is, E, As):
 
 
 def thk_reduction(fy, scrs):
+    if scrs is None or scrs <= 0:
+        raise ValueError(f"Invalid critical stress value: {scrs}. Expected a positive number.")
+
     lamd = math.sqrt(fy / scrs)
     if lamd <= 0.65:
         xd = 1.0

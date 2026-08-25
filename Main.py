@@ -2,7 +2,7 @@ from typing import Literal
 from Section.Materials import material
 from Section.CreateSections import C_Section, U_Section
 import FSA.Program.Runner as fsa
-import EffectiveSection.Modes as modes
+from EffectiveSection.Modes import AxialCompression, BendingStrong, BendingWeakLip, BendingWeakWeb
 
 
 class Unit:
@@ -44,9 +44,8 @@ print(mat)
 # ======================================================================================================================
 # Defining the section in selected unit
 # ======================================================================================================================
-sec = C_Section(140, 45, 10, 1.2, 2.5, 0, mat)
+sec = C_Section(120, 50, 15, 1.5, 2.5, 270, mat)
 print(sec)
-
 
 def bucklingAnalysis():
     # 1. Instantiates section, material, and units ONCE in __init__
@@ -85,20 +84,44 @@ def bucklingAnalysis():
 
 BucklingResults = bucklingAnalysis()
 
-def effective():
-    f_crit = None
-    for i in BucklingResults:
-        if i[0] == 'AXIAL' and i[1] == 'local':
-            f_crit = i[2]
+def effective(res):
+    f_crit_ax = None
+    for group in res:
+        for mode in group:
+            if mode[0] == 'AXIAL' and mode[1] == 'distortional':
+                f_crit_ax = mode[3]
+                break
 
-    axialComp = modes.AxialComp(mat.fy,f_crit)
-    modes.
-    return axialComp
+    if f_crit_ax is None:
+        raise ValueError("f_crit is None. Ensure BucklingResults calculated a valid critical stress.")
+
+    f_crit_bend = None
+    for group in res:
+        for mode in group:
+            if mode[0] == 'BENDING' and mode[1] == 'distortional':
+                f_crit_bend = mode[3]
+                break
+
+    if f_crit_bend is None:
+        raise ValueError("f_crit is None. Ensure BucklingResults calculated a valid critical stress.")
+
+    axialComp = AxialCompression.AxialComp(mat, sec, f_crit_ax)
+    bending = None
+    if sec.angle == 0:
+        bending = BendingStrong.bendStrong(mat, sec, f_crit_bend)
+    if sec.angle == 90:
+        bending = BendingWeakWeb.bendWeakWeb(mat, sec, f_crit_bend)
+    if sec.angle == 270:
+        bending = BendingWeakLip.bendWeakLip(mat, sec, f_crit_bend)
+    return f_crit_ax, axialComp, f_crit_bend, bending
 
 
 def main():
     bucklingAnalysis()
-    effective()
+    axial = effective(BucklingResults)[1]
+    bending = effective(BucklingResults)[3]
+    print(f'Aeff : {axial.Axial_Aeff}')
+    print(f'Weff : {bending.Weff}')
 
 
 if __name__ == "__main__":
