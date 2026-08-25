@@ -33,6 +33,8 @@ class C_Section:
         :param R: Inner radius
         :param angle: Orientation angle in degrees
         """
+        self.local_zgx = None
+        self.local_zgy = None
         self.ry = None
         self.rx = None
         self.descp_Plot_inches = None
@@ -266,28 +268,33 @@ class C_Section:
     def calculateGross(self):
         x = self.nodes[:, 1]
         y = self.nodes[:, 2]
+        # 1. Compute unrotated local centroid and inertias on unrotated Csection
+        x_local = self.Csection[:, 0]
+        y_local = self.Csection[:, 1]
+        print(len(x))
+        print(len(y))
+        print(len(x_local))
+        print(len(y_local))
+
         t = self.t
-        r = self.r
-        # Area of cross section
-        da = np.zeros([len(x)])
-        ba = np.zeros([len(x)])
+
+        da = np.zeros([len(x_local)])
+        sx0 = np.zeros([len(x_local)])
+        sy0 = np.zeros([len(x_local)])
         for i in range(1, len(da)):
-            da[i] = math.sqrt(math.pow(x[i - 1] - x[i], 2) + math.pow(y[i - 1] - y[i], 2)) * t
-            ba[i] = math.sqrt(math.pow(x[i - 1] - x[i], 2) + math.pow(y[i - 1] - y[i], 2))
+            da[i] = math.sqrt((x_local[i - 1] - x_local[i]) ** 2 + (y_local[i - 1] - y_local[i]) ** 2) * t
+            sx0[i] = (y_local[i] + y_local[i - 1]) * da[i] / 2
+            sy0[i] = (x_local[i] + x_local[i - 1]) * da[i] / 2
+
         self.Ar = np.sum(da)
-        Lt = np.sum(ba)
-        # Total rj.tetaj/90
-        Trj = 4 * 4 * r * (1.0 / 4.0)
-        delta = 0.43 * Trj / Lt
-        # First moment of area and coordinate for gravity centre
-        sx0 = np.zeros([len(x)])
-        sy0 = np.zeros([len(x)])
-        for i in range(1, len(sx0)):
-            sx0[i] = (y[i] + y[i - 1]) * da[i] / 2
-        self.zgy = np.sum(sx0) / self.Ar
-        for i in range(1, len(sy0)):
-            sy0[i] = (x[i] + x[i - 1]) * da[i] / 2
-        self.zgx = np.sum(sy0) / self.Ar
+        self.local_zgy = np.sum(sx0) / self.Ar  # Height direction (aa / 2)
+        self.local_zgx = np.sum(sy0) / self.Ar  # Distance from web to centroid (~15.1 mm)
+
+        # 2. Store global rotated centroid for OpenSees / Global plotting
+        x_glob = self.nodes[:, 1]
+        y_glob = self.nodes[:, 2]
+        self.zgy = np.mean(y_glob)  # or global Sy0 / Ar
+        self.zgx = np.mean(x_glob)  # or global Sx0 / Ar
 
         # Second moment of area
         Ix0 = np.zeros([len(x)])

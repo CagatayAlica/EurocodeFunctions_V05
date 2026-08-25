@@ -43,13 +43,13 @@ class bendWeakWeb:
         # ==============================================================================================================
         # Only tension part is taken into account for the flange (bb-zgx)
         top_flg_be1 = 0.0
-        top_flg_be2 = (self.sec.bb - self.sec.zgx)
+        top_flg_be2 = (self.sec.bb - self.sec.local_zgx)
         # ==============================================================================================================
         # Effective width of the bot flange
         # ==============================================================================================================
         # Only tension part is taken into account for the flange (bb-zgx)
         bot_flg_be1 = 0.0
-        bot_flg_be2 = (self.sec.bb - self.sec.zgx)
+        bot_flg_be2 = (self.sec.bb - self.sec.local_zgx)
         # ==============================================================================================================
         # Effective width of the top edge fold
         # ==============================================================================================================

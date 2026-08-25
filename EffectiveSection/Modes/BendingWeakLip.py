@@ -46,7 +46,7 @@ class bendWeakLip:
         top_flg_lamp = Sec4.lamp(self.sec.bb, self.sec.tcore, top_flg_ksigma, scomed, True)
         top_flg_rho = Sec4.internal_element(top_flg_lamp, top_flg_stress_ratio)
         top_flg_beff = Sec4.Table4_2_beff(self.sec.bb, top_flg_rho, top_flg_stress_ratio)[0]
-        top_flg_be1 = self.sec.zgx
+        top_flg_be1 = self.sec.local_zgx
         top_flg_be2 = top_flg_beff
         # ==============================================================================================================
         # Effective width of the bot flange
@@ -56,7 +56,7 @@ class bendWeakLip:
         bot_flg_lamp = Sec4.lamp(self.sec.bb, self.sec.tcore, bot_flg_ksigma, scomed, True)
         bot_flg_rho = Sec4.internal_element(bot_flg_lamp, bot_flg_stress_ratio)
         bot_flg_beff = Sec4.Table4_2_beff(self.sec.bb, bot_flg_rho, bot_flg_stress_ratio)[0]
-        bot_flg_be1 = self.sec.zgx
+        bot_flg_be1 = self.sec.local_zgx
         bot_flg_be2 = bot_flg_beff
         # ==============================================================================================================
         # Effective width of the top edge fold

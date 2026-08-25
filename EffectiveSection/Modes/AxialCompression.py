@@ -151,7 +151,8 @@ class AxialComp:
         self.Axial_xgc = intprop.calcProps(self.Axial_elementData2)[3]
         self.Axial_Aeff = intprop.calcProps(self.Axial_elementData2)[0]
         print(f'Agross : {self.section.Ar}')
-        self.Axial_dxgc = self.Axial_xgc - self.section.zgx  # if it is + compression on web.
+
+        self.Axial_dxgc = self.Axial_xgc - self.section.local_zgx  # if it is + compression on web.
 
         plt.plot(self.Axial_xgc, self.section.A / 2, color='gray', linestyle='solid', marker=6, markerfacecolor='blue',
                  markersize=9)
